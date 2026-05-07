@@ -148,15 +148,15 @@ jobs:
                 if [ -f "$filepath" ]; then
                   file_size=$(stat -c%s "$filepath" 2>/dev/null || stat -f%z "$filepath" 2>/dev/null)
                                     if [ -n "$file_size" ] && [ "$file_size" -gt 104857600 ]; then
-                    echo "  File larger than 100 MB (${file_size} bytes). Splitting into 50 MB parts..."
+                    echo "  File larger than 100 MB (${file_size} bytes). Splitting into 90 MB parts..."
                     (
                       cd "$target_dir"
                       # Use --numeric-suffixes=1 if available (GNU split 8.16+)
                       if split --help 2>&1 | grep -q -- "--numeric-suffixes"; then
-                        split -b 50m --numeric-suffixes=1 -a 3 "$filename" "${filename}."
+                        split -b 90m --numeric-suffixes=1 -a 3 "$filename" "${filename}."
                       else
                         # Fallback: split from 000 then rename
-                        split -b 50m -d -a 3 "$filename" "${filename}."
+                        split -b 90m -d -a 3 "$filename" "${filename}."
                         files=($(ls "${filename}."??? | sort))
                         for i in "${!files[@]}"; do
                           new=$(printf "%s.%03d" "$filename" $((i+1)))
